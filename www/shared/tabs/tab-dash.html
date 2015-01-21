@@ -1,0 +1,66 @@
+<ion-view title="Ionic Lamp">
+  <ion-content class="padding">
+
+    <ion-refresher
+      pulling-text="Pull to refresh..."
+      on-refresh="doRefresh()">
+    </ion-refresher>
+
+
+    <div class="list">
+
+      <div class="item item-icon-left">
+        <i class="icon ion-ios-lightbulb"></i>
+        Status: <span class="balanced" ng-if="data.status">Online</span> <span class="assertive" ng-if="!data.status">Offline</span>
+        <p ng-if="data.name">Core: {{data.name}}</p>
+      </div>
+
+
+      <div class="item range range-assertive">
+        <i class="icon ion-paintbucket assertive"></i>
+        <input type="range" name="red" min="0" max="255" ng-model="data.red" on-release="onBrightnessChange()">
+        <p class="range-right-label">Red: {{data.red}}</p>
+      </div>
+
+      <div class="item range range-balanced">
+        <i class="icon ion-paintbucket balanced"></i>
+        <input type="range" name="green" min="0" max="255" ng-model="data.green" on-release="onBrightnessChange()">
+        <p class="range-right-label">Green: {{data.green}}</p>
+      </div>
+
+      <div class="item range range-positive">
+        <i class="icon ion-paintbucket positive"></i>
+        <input type="range" name="blue" min="0" max="255" ng-model="data.blue" on-release="onBrightnessChange()">
+        <p class="range-right-label">Blue: {{data.blue}}</p>
+      </div>
+
+      <div class="item item-divider">
+          <button class="button button-full button-balanced" ng-click="setColor()">Set Color</button>
+      </div>
+
+    </div>
+
+    <div class="list">
+
+      <label class="item item-input item-select">
+        <div class="input-label">Pattern</div>
+        <select>
+          <option value="SOLID">Solid Color</option>
+          <option value="RAINBOW">Rainbow</option>
+          <option value="RAINBOW_CYCLE">Rainbow Cycle</option>
+          <option value="XMAS">Christmas</option>
+          <option value="CAORDA">Caorda</option>
+        </select>
+      </label>
+
+      <div class="item range range-energized">
+        <i class="icon ion-speedometer energized"></i>
+        <input type="range" name="speed" min="0" max="255" ng-model="data.speed" on-release="onBrightnessChange()">
+        <p class="range-right-label">Speed: {{data.speed}}</p>
+      </div>
+
+    </div>
+
+
+  </ion-content>
+</ion-view>

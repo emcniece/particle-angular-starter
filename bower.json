@@ -1,0 +1,20 @@
+{
+  "name": "spark-angular-starter",
+  "version": "0.0.0",
+  "authors": [
+    "Eric McNiece <emcniece@caorda.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ngstorage": "~0.3.0",
+    "spark": "~0.2.4"
+  }
+}

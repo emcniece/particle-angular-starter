@@ -1,0 +1,10 @@
+{
+  "name": "spark-angular-starter",
+  "description": "Provides a starter framework for Spark Core applications with an Ionic / AngularJS framework",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "~4.4.3",
+    "livereload": "^0.3.4"
+  }
+}

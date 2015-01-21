@@ -1,0 +1,36 @@
+<ion-view title="Settings">
+  <ion-content class="padding">
+    <h1>Settings</h1>
+
+	<div class="list">
+
+
+
+      <label class="item item-input item-floating-label">
+	    <span class="input-label">Api URL</span>
+	    <input type="text" name="apiUrl" ng-model="settings.apiUrl" ng-value="apiUrl">
+	  </label>
+	  <label class="item item-input item-floating-label">
+	    <span class="input-label">Device</span>
+	    <input type="text" name="device" ng-model="settings.device" ng-value="device">
+	  </label>
+	  <label class="item item-input item-floating-label">
+	    <span class="input-label">Access Token</span>
+	    <input type="text" name="acToken" ng-model="settings.acToken" ng-value="acToken"
+	  </label>
+      </div>
+
+
+    </div>
+
+    <div class="row">
+      <div class="col">
+
+      </div>
+      <div class="col">
+      	<button class="button button-block button-assertive" ng-click="clearAllData()">Clear All Data</button>
+      </div>
+    </div>
+
+  </ion-content>
+</ion-view>
