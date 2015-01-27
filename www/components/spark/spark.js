@@ -174,6 +174,7 @@ angular.module('starter.spark', [])
 
 .controller('SparkCoreCtrl', function($scope, $localStorage, $ionicModal, $ionicLoading) {
 
+  $scope.cores = $localStorage.spark.cores;
 
   // Modal def
   $ionicModal.fromTemplateUrl('components/spark/modals/modal-cores.html', {
@@ -246,7 +247,11 @@ angular.module('starter.spark', [])
       $ionicLoading.hide();
     });
 
-  };
+  }; // getDevices
+
+  $scope.addCores = function(){
+    
+  }
 
 }) // GetDevices
 
