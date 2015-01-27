@@ -7,14 +7,23 @@
     <div class="list">
       <label class="item item-input">
         <span class="input-label">Email Address</span>
-        <input ng-model="newUser.email" type="text">
+        <input ng-model="newUser.email" type="text" ng-focus="clearError()">
       </label>
       <label class="item item-input">
         <span class="input-label">Password</span>
-        <input ng-model="newUser.pass" type="password">
+        <input ng-model="newUser.pass" type="password" ng-focus="clearError()">
       </label>
-      
-      <button class="button button-full button-positive" ng-click="addAccount(newUser)">Add Account</button>
+      <label class="item item-checkbox">
+        <span class="checkbox">
+          <input ng-model="newUser.remember" type="checkbox">
+        </span>
+        Remember Password
+
+      </label>
+
+      <button class="button button-full button-positive" ng-click="addAccount(newUser)">
+        Add Account
+      </button>
 
 			<button class="button button-full button-clear button-assertive" ng-show="settings.error">{{settings.error}}</button>
     </div>

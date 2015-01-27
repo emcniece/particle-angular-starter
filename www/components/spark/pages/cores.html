@@ -1,7 +1,21 @@
 <ion-view title="Cores">
-  <ion-content class="padding">
-    <h1>Cores</h1>
+  <ion-content class="">
 
- 
+    <div class="list">
+
+      <a class="item item-icon-left" ng-click="openModal()">
+        <i class="icon ion-plus"></i>
+        Add Core...
+      </a>
+
+      <ion-item ng-repeat="core in cores" class="item-icon-right" href="/#/tab/spark/cores/{{$index}}">
+        <h2>{{core.name}}</h2>
+        <p>{{core.access_token}}</p>
+        <i class="icon ion-chevron-right"></i>
+
+      </ion-item>
+
+    </div>
+
   </ion-content>
 </ion-view>

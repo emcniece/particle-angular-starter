@@ -1,7 +1,42 @@
-<ion-view title="Account: ">
+<ion-view title="Accounts">
   <ion-content class="padding">
-    <h1>Account: </h1>
+    <h1>Account Details</h1>
 
- 
+    <div class="list">
+      <label class="item item-icon-left">
+        <i class="icon ion-person-stalker"></i>
+        {{account.email}}
+        <p>Email Address</p>
+      </label>
+      <label class="item item-icon-left" ng-show="account.password">
+        <i class="icon ion-locked"></i>
+        <input type="password" value="{{account.password}}" disabled/>
+        <p>Password</p>
+      </label>
+      <label class="item item-icon-left">
+        <i class="icon ion-key"></i>
+        {{account.access_token}}
+        <p>Access Token</p>
+      </label>
+      <label class="item item-icon-left">
+        <i class="icon ion-clock"></i>
+        {{account.expiry.h}} hours
+        <p>Time till expiry</p>
+      </label>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <button class="button button-full button-calm" ng-click="renewToken()">
+          Renew Token
+        </button>
+      </div>
+      <div class="col">
+        <button class="button button-full button-assertive" ng-click="deleteAccount()">
+          Delete Account
+        </button>
+      </div>
+    </div>
+
   </ion-content>
 </ion-view>

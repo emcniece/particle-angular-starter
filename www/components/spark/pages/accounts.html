@@ -2,8 +2,11 @@
   <ion-content class="">
 
     <div class="list">
-      <ion-item ng-repeat="account in accounts">
-          {{account}}
+      <ion-item ng-repeat="account in accounts" class="item-icon-right" href="/#/tab/spark/accounts/{{$index}}">
+          <h2>{{account.email}}</h2>
+          <p>{{account.access_token}}</p>
+          <i class="icon ion-chevron-right"></i>
+
       </ion-item>
 
       <a class="item item-icon-left" ng-click="openModal()">

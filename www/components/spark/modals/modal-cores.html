@@ -1,0 +1,38 @@
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header bar-positive">
+    <h1 class="title">Add Cores</h1>
+    <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+  </ion-header-bar>
+  <ion-content class="padding"  ng-controller="SparkCoreModal">
+    <div class="list">
+      <label class="item item-input item-select">
+        <span class="input-label">Account</span>
+        <select ng-model="selectedAcct"
+                ng-change="changeAcct()"
+                ng-options="account.access_token as account.email for account in accounts"
+          >
+        </select>
+
+      </label>
+
+      <div class="item item-checkbox" ng-repeat="core in cores">
+        <label class="checkbox">
+          <input type="checkbox" value="{{core.id}}">
+        </label>
+        {{core.name}}
+      </div>
+
+      <button class="button button-full button-positive" ng-click="addCores()">
+        Add Cores
+      </button>
+
+			<button class="button button-full button-clear button-assertive" ng-show="settings.error">
+        {{settings.error}}
+      </button>
+
+      {{activeAcct}}
+
+
+        </div>
+  </ion-content>
+</ion-modal-view>
