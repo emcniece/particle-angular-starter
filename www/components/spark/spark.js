@@ -128,7 +128,7 @@ angular.module('starter.spark', [])
       spark
         .login({username: newUser.email, password: newUser.pass})
         .then(function(data){
-
+          console.log(data);
           $scope.accounts.push({
             email: newUser.email,
             password: newUser.remember ? newUser.pass : false,
@@ -151,7 +151,7 @@ angular.module('starter.spark', [])
     } else{
       $scope.settings.error = "Please fill out the email and password fields";
     }
-  } // addAccount
+  }; // addAccount
 
 }) // SparkAccountCtrl
 
@@ -164,11 +164,10 @@ angular.module('starter.spark', [])
 
   $scope.deleteAccount = function(){
     if(confirm("Are you sure you want to delete this account?")){
-      //delete $localStorage.spark.accounts[$stateParams.id];
-      $location.path('/#/tabs/spark/accounts');
-
+      $localStorage.spark.cores.accounts($stateParams.id, 1);
+      $location.path('/#/tab/spark/accounts');
     }
-  }
+  };
 
 }]) // SparkAccountDetailCtrl
 
@@ -195,12 +194,14 @@ angular.module('starter.spark', [])
 }) // SparkCoreCtrl
 
 // Load cores after acct selection
-.controller('SparkCoreModal',function($scope, $localStorage, $ionicLoading){
+.controller('SparkCoreModal',function($scope, $localStorage, $ionicLoading, $ionicModal){
 
   $scope.settings = {
     error: false
   };
   $scope.accounts = $localStorage.spark.accounts;
+  $scope.cores = $localStorage.spark.cores;
+  $scope.remoteDevices = [];
 
   $scope.changeAcct = function(){
     $scope.settings.error = false;
@@ -229,7 +230,20 @@ angular.module('starter.spark', [])
     var devicesPr = spark.listDevices()
       .then( function(devices){
         console.log(devices);
-        $scope.cores = devices;
+
+        // Only display new devices
+        angular.forEach(devices, function(core){
+          var inScope = false;
+          angular.forEach($scope.cores, function(scopeCore){
+            if(core.id === scopeCore.id) inScope = true;
+          })
+          if(!inScope) $scope.remoteDevices.push(core);
+        });
+        
+        if($scope.remoteDevices.length == 0){
+          $scope.settings.error = "You have already added all cores from this account.";
+        }
+
 
         /*
          * NEXT UP:
@@ -250,13 +264,49 @@ angular.module('starter.spark', [])
   }; // getDevices
 
   $scope.addCores = function(){
-    
-  }
+    console.log($scope.remoteDevices);
+    angular.forEach($scope.remoteDevices, function(core, key){
+      if(core.selected){
+
+        var inScope = false;
+        angular.forEach($scope.cores, function(scopeCore){
+          if( core.id === scopeCore.id) inScope = true;
+        });
+
+        if(!inScope){
+          // Clean circular JSON
+          delete core._spark; delete core.attributes;
+          console.log('core: ', core);
+          $localStorage.spark.cores.push(core);
+          $scope.remoteDevices.splice($scope.remoteDevices.indexOf(core), 1);
+
+          
+        }
+        $scope.modal.hide();
+      } // if core selected
+    });
+
+
+
+  };
 
 }) // GetDevices
 
-.controller('SparkCoreDetailCtrl', function($scope, $localStorage) {
-})
+.controller('SparkCoreDetailCtrl', ['$scope', '$stateParams', '$localStorage', '$location',
+  function($scope, $stateParams, $localStorage, $location) {
+
+
+  $scope.core = $localStorage.spark.cores[$stateParams.id];
+  console.log($scope.core);
+
+  $scope.deleteCore = function(){
+    if(confirm("Are you sure you want to delete this core?")){
+      $localStorage.spark.cores.splice($stateParams.id, 1);
+      $location.path('tab/spark/cores');
+    }
+  };
+
+}]) // SparkCoreDetailCtrl
 
 
 /*============================================

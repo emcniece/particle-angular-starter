@@ -1,5 +1,9 @@
-<ion-view title="Cores">
-  <ion-content class="">
+<ion-view title="Cores" hide-nav-bar="true">
+  <ion-header class="bar bar-header">
+    <a href="/#/tab/spark" class="button icon-left ion-chevron-left button-clear button-dark">Back</a>
+    <h1 class="title">Cores</h1>
+  </ion-header>
+  <ion-content class="has-header">
 
     <div class="list">
 
@@ -11,6 +15,10 @@
       <ion-item ng-repeat="core in cores" class="item-icon-right" href="/#/tab/spark/cores/{{$index}}">
         <h2>{{core.name}}</h2>
         <p>{{core.access_token}}</p>
+
+        <span class="badge badge-dark" ng-show="!core.connected">Offline</span>
+        <span class="badge badge-balanced" ng-show="core.connected">Online</span>
+
         <i class="icon ion-chevron-right"></i>
 
       </ion-item>

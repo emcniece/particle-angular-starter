@@ -15,24 +15,22 @@
 
       </label>
 
-      <div class="item item-checkbox" ng-repeat="core in cores">
-        <label class="checkbox">
-          <input type="checkbox" value="{{core.id}}">
-        </label>
+      <ion-checkbox ng-repeat="core in remoteDevices"
+                    ng-model="core.selected"
+                    ng-checked="core.selected">
         {{core.name}}
-      </div>
+        <span class="badge badge-dark" ng-show="!core.connected">Offline</span>
+        <span class="badge badge-balanced" ng-show="core.connected">Online</span>
+      </ion-checkbox>
 
       <button class="button button-full button-positive" ng-click="addCores()">
         Add Cores
       </button>
 
-			<button class="button button-full button-clear button-assertive" ng-show="settings.error">
+			<div class="assertive button-error" ng-show="settings.error">
         {{settings.error}}
-      </button>
+      </div>
 
-      {{activeAcct}}
-
-
-        </div>
+    </div>
   </ion-content>
 </ion-modal-view>

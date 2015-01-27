@@ -25,7 +25,10 @@
         Add Account
       </button>
 
-			<button class="button button-full button-clear button-assertive" ng-show="settings.error">{{settings.error}}</button>
+			<div class="assertive message-error" ng-show="settings.error">
+        {{settings.error}}
+      </div>
+
     </div>
   </ion-content>
 </ion-modal-view>
