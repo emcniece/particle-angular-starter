@@ -12,6 +12,10 @@ angular.module('starter.controllers', ['ngStorage'])
       //'device': '53ff71066667574807372567',
       'name' : false,
       //'acToken': '91a7db82bb5d95a1f76b4b30c163093a9fe84937'
+      
+      red: 128,
+      green: 128,
+      blue: 128
     };
 
     $scope.onBrightnessChange = function(){

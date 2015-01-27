@@ -1,0 +1,16 @@
+<ion-view title="Accounts">
+  <ion-content class="">
+
+    <div class="list">
+      <ion-item ng-repeat="account in accounts">
+          {{account}}
+      </ion-item>
+
+      <a class="item item-icon-left" ng-click="openModal()">
+          <i class="icon ion-plus"></i>
+          Add Account...
+      </a>
+    </div>
+
+  </ion-content>
+</ion-view>

@@ -55,15 +55,7 @@ angular.module('starter', ['ionic', 'starter.spark', 'starter.controllers', 'sta
       }
     })
 
-    .state('tab.spark', {
-      url: '/spark',
-      views: {
-        'tab-spark': {
-          templateUrl: 'components/spark/tab-spark.html',
-          controller: 'SparkTabCtrl'
-        }
-      }
-    });
+   ;
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/dash');
