@@ -8,6 +8,7 @@ angular.module('starter.spark', [])
     // Load default settings and variables
     $localStorage.$default({
       spark: {
+        activeCore: null,
         'accounts': [],
         'cores': [],
         'listeners': [],
@@ -226,7 +227,7 @@ angular.module('starter.spark', [])
 
     $ionicLoading.hide();
     $ionicLoading.show({template:"Getting devices..."});
-
+    console.log($scope.selectedAcct);
     var devicesPr = spark.listDevices()
       .then( function(devices){
         console.log(devices);
@@ -236,22 +237,14 @@ angular.module('starter.spark', [])
           var inScope = false;
           angular.forEach($scope.cores, function(scopeCore){
             if(core.id === scopeCore.id) inScope = true;
-          })
+          });
+
           if(!inScope) $scope.remoteDevices.push(core);
         });
-        
-        if($scope.remoteDevices.length == 0){
+
+        if($scope.remoteDevices.length === 0){
           $scope.settings.error = "You have already added all cores from this account.";
         }
-
-
-        /*
-         * NEXT UP:
-         * Store selected cores in $localStorage
-         * make sure that account and/or access_token is stored with core
-         * then propagate to SparkCoreCtrl $scope.cores
-         * probably have to loop x10^45 to get it done
-         */
 
       }, function(error){
         console.log('error', error);
@@ -276,11 +269,12 @@ angular.module('starter.spark', [])
         if(!inScope){
           // Clean circular JSON
           delete core._spark; delete core.attributes;
+          core.access_token = $scope.selectedAcct;
           console.log('core: ', core);
+
           $localStorage.spark.cores.push(core);
           $scope.remoteDevices.splice($scope.remoteDevices.indexOf(core), 1);
 
-          
         }
         $scope.modal.hide();
       } // if core selected

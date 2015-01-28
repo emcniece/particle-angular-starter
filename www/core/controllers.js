@@ -1,22 +1,67 @@
 angular.module('starter.controllers', ['ngStorage'])
 
-.controller('DashCtrl', function($scope, $localStorage, $timeout, $http, $ionicLoading, Lamp) {
+.controller('DashCtrl', function($scope, $localStorage, $timeout, $http, $ionicLoading, $ionicModal, Lamp) {
 
 
     $scope.data = {
-      'status': false,
-      'brightness' : '0',
-
-      // Core details
-      //'apiUrl': 'https://api.spark.io/v1/',
-      //'device': '53ff71066667574807372567',
-      'name' : false,
-      //'acToken': '91a7db82bb5d95a1f76b4b30c163093a9fe84937'
-      
+      activeCore: $localStorage.spark.activeCore,
+      modalCore: null,
+      status: false,
+      brightness : '0',
+      name : false,
       red: 128,
       green: 128,
-      blue: 128
+      blue: 128,
+      buttonColor: null,
+      buttonAlpha: 1
     };
+
+    /* todo: modify button color demo!
+
+      For: R=50%, G=66%, B=25%
+      opacity: 0.66
+      R = 255*(50/66) = 186
+      G = 255
+      B = 255*(25/66) = 93
+      color = rgba(186,255,93,0.6);
+
+    */
+
+    console.log($scope.data.activeCore);
+    $scope.localDevices = $localStorage.spark.cores;
+
+    // Modal def
+    $ionicModal.fromTemplateUrl('shared/modals/modal-dash-selectcore.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+
+    $scope.openModal = function() {
+      console.log($scope);
+      $scope.modal.show();
+    };
+    $scope.closeModal = function() {
+      $scope.modal.hide();
+    };
+
+    $scope.selectCore = function(){
+
+      if($scope.data.modalCore){
+        angular.forEach($scope.localDevices, function(core){
+          if( core.id === $scope.data.modalCore){
+            $scope.data.activeCore = core;
+            $localStorage.spark.activeCore = core;
+          }
+        });
+
+        $scope.closeModal();
+      }
+
+
+    };
+
 
     $scope.onBrightnessChange = function(){
 

@@ -9,10 +9,19 @@
 
     <div class="list">
 
-      <div class="item item-icon-left">
-        <i class="icon ion-ios-lightbulb"></i>
-        Status: <span class="balanced" ng-if="data.status">Online</span> <span class="assertive" ng-if="!data.status">Offline</span>
-        <p ng-if="data.name">Core: {{data.name}}</p>
+      <div class="item item-icon-left item-icon-right" ng-click="openModal()">
+        <i class="icon ion-ios-bolt"></i>
+        Device: {{data.activeCore.name}}
+
+        <span class="badge badge-dark"
+              ng-show="data.activeCore && !data.activeCore.connected">
+          Offline
+        </span>
+        <span class="badge badge-balanced"
+              ng-show="data.activeCore && data.activeCore.connected">
+          Online
+        </span>
+        <i class="icon ion-chevron-right" ng-show="!data.activeCore"></i>
       </div>
 
 
