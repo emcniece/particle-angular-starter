@@ -1,33 +1,56 @@
 angular.module('starter.controllers', ['ngStorage'])
 
-.controller('DashCtrl', function($scope, $localStorage, $timeout, $http, $ionicLoading, $ionicModal, Lamp) {
+.controller('DashCtrl', function($scope, $localStorage, $timeout, $http, $ionicLoading, $ionicModal, SparkService) {
 
 
     $scope.data = {
-      activeCore: $localStorage.spark.activeCore,
+      activeCore: $localStorage.lampCore,
+      activeAcct: $localStorage.spark.activeAcct,
+      lastQuery: false,
       modalCore: null,
       status: false,
       brightness : '0',
       name : false,
-      red: 128,
-      green: 128,
-      blue: 128,
-      buttonColor: null,
-      buttonAlpha: 1
+      color:{
+        r: 128,
+        g: 128,
+        b: 128,
+      },
+      button: {
+        color: {r:0,g:0,b:0},
+        alpha: 1
+      }
+
     };
 
-    /* todo: modify button color demo!
+    // Update demo button to reflect additive light color
+    $scope.updateDemo = function(){
+      var highVal = 0,
+          highKey = false;
 
-      For: R=50%, G=66%, B=25%
-      opacity: 0.66
-      R = 255*(50/66) = 186
-      G = 255
-      B = 255*(25/66) = 93
-      color = rgba(186,255,93,0.6);
+      // Find highest color value
+      angular.forEach($scope.data.color, function(value, key){
+        value = parseInt(value, 10);
+        if( value > highVal){
+          highVal = value;
+          highKey = key;
+        }
+      });
 
-    */
+      // ... which gives us opacity as a percent
+      $scope.data.button.alpha = highVal / 255;
 
-    console.log($scope.data.activeCore);
+      angular.forEach($scope.data.color, function(value, key){
+        $scope.data.button.color[key] = parseInt(value/highVal*255, 10);
+      });
+
+
+      console.log($scope.data.button.color, $scope.data.button.alpha);
+    };
+
+    console.log('Active core: ',$scope.data.activeCore);
+    console.log('Active acct: ',$scope.data.activeAcct);
+
     $scope.localDevices = $localStorage.spark.cores;
 
     // Modal def
@@ -39,7 +62,6 @@ angular.module('starter.controllers', ['ngStorage'])
     });
 
     $scope.openModal = function() {
-      console.log($scope);
       $scope.modal.show();
     };
     $scope.closeModal = function() {
@@ -52,13 +74,12 @@ angular.module('starter.controllers', ['ngStorage'])
         angular.forEach($scope.localDevices, function(core){
           if( core.id === $scope.data.modalCore){
             $scope.data.activeCore = core;
-            $localStorage.spark.activeCore = core;
+            $localStorage.lampCore = core;
           }
         });
 
         $scope.closeModal();
       }
-
 
     };
 
@@ -70,37 +91,26 @@ angular.module('starter.controllers', ['ngStorage'])
     }; // onBrightnessChange
 
     $scope.doRefresh = function() {
+      if( !spark.accessToken){
+        SparkService.login()
+          .then(function(data){
+              spark.getDevice($scope.data.activeCore.id, $scope.updateAC);
+            })
+            .catch(function(error){
+              console.log(error);
+            });
+      } else{
+        spark.getDevice($scope.data.activeCore.id, $scope.updateAC);
 
-      // Check status, return promise
-      Lamp.getStatus()
-        .success(function(data) {
-
-          if( data.name){
-            $scope.data.name = data.name;
-            $scope.data.status = data.connected;
-          }
-
-          return false;
-
-        }); // getStatus
-
-      // Check brightness, return promise
-      Lamp.getBrightness()
-        .success(function(data){
-
-          if( data.name){
-            $scope.data.brightness = data.result;
-          }
-
-        })
-        .finally(function() {
-          // Stop the ion-refresher from spinning
-          $scope.$broadcast('scroll.refreshComplete');
-        });
-
-
+      }
 
     }; // doRefresh
+
+    $scope.updateAC = function(err, device){
+      $scope.data.activeCore = device;
+      $scope.data.activeCore.lastQuery = +new Date;
+      $scope.$broadcast('scroll.refreshComplete');
+    };
 
     $scope.bumpBrightness = function(){
       var newLevel = parseInt($scope.data.brightness, 10) + 5;

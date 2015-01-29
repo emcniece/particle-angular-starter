@@ -23,6 +23,7 @@ angular.module('starter', ['ionic', 'starter.spark', 'starter.controllers', 'sta
     $localStorage.$default({
       // Add persistent localStorage settings here
       // mySetting: true, ...
+      lampCore: null
     });
 
   });

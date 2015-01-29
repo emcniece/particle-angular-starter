@@ -4,11 +4,13 @@ angular.module('starter.spark', [])
   $ionicPlatform.ready(function() {
 
   console.log('Spark ready', spark);
+  console.log("Storage", $localStorage);
 
     // Load default settings and variables
     $localStorage.$default({
       spark: {
         activeCore: null,
+        activeAcct: null,
         'accounts': [],
         'cores': [],
         'listeners': [],
@@ -107,7 +109,7 @@ angular.module('starter.spark', [])
   $scope.accounts = $localStorage.spark.accounts;
 
   // Modal def
-  $ionicModal.fromTemplateUrl('components/spark/modals/modal-account.html', {
+  $ionicModal.fromTemplateUrl('components/spark/modals/modal-add-account.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {
@@ -227,7 +229,7 @@ angular.module('starter.spark', [])
 
     $ionicLoading.hide();
     $ionicLoading.show({template:"Getting devices..."});
-    console.log($scope.selectedAcct);
+
     var devicesPr = spark.listDevices()
       .then( function(devices){
         console.log(devices);
@@ -257,7 +259,7 @@ angular.module('starter.spark', [])
   }; // getDevices
 
   $scope.addCores = function(){
-    console.log($scope.remoteDevices);
+
     angular.forEach($scope.remoteDevices, function(core, key){
       if(core.selected){
 
@@ -302,12 +304,101 @@ angular.module('starter.spark', [])
 
 }]) // SparkCoreDetailCtrl
 
+// Account selection modal
+.controller('SparkSelectAcctCtrl', function($scope, $localStorage, $ionicLoading){
+  $scope.accounts = $localStorage.spark.accounts;
+  $scope.accts = {selected:false};
+  $scope.loginComplete = false;
+
+  $scope.selectAccount = function(){
+
+      if(!$scope.accts.selected) return;
+
+      $ionicLoading.show({template: "Logging in..."});
+
+      spark.login({accessToken: $scope.accts.selected})
+        .then(function(data){
+          console.log('output: ', data);
+          $localStorage.spark.activeAcct = {access_token : data.accessToken};
+          $scope.loginComplete = true;
+        })
+        .catch(function(error){
+          console.log(error);
+          $scope.settings.error = "Something went wrong! "+error;
+        })
+        .finally(function(){
+          $ionicLoading.hide();
+        });
+  }; // selectAccount
+})
 
 /*============================================
 =            Spark Services Layer            =
 ============================================*/
 
-.service('SparkService', function(spark){
+.service('SparkService', function($rootScope, $localStorage, $ionicModal, $ionicLoading){
+
+  var $scope = $scope || $rootScope.$new();
+
+  return {
+    login: login,
+    getDevice: getDevice
+
+
+  }; // return Lamp
+
+  function login(activeAcct){
+
+    var acct = false,
+        promise;
+    $scope.accounts = $localStorage.spark.accounts;
+
+    if(activeAcct)
+      acct = activeAcct;
+    else if($localStorage.spark.activeAcct)
+      acct = $localStorage.spark.activeAcct.access_token;
+    else if($localStorage.spark.accounts[0])
+      acct = $localStorage.spark.accounts[0].access_token;
+
+    var init = function(){
+      // Modal def
+      promise = $ionicModal.fromTemplateUrl('components/spark/modals/modal-accounts.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        $scope.modal = modal;
+        return modal;
+      });
+      $scope.openModal = function() {
+        $scope.modal.show();
+      };
+      $scope.closeModal = function() {
+        $scope.modal.hide();
+      };
+
+      return promise;
+    }; // init
+
+
+    if( !acct){
+      // Prompt for acct select
+      init().then(function(modal){ modal.show(); });
+    } else{
+      // Return login promise
+      console.log('Assisted login:', acct);
+      return spark.login({accessToken: acct});
+    } // if acct
+
+
+
+
+  }
+
+  function getDevice(){
+    var url = $localStorage.apiUrl + "devices/"+$localStorage.device+"?access_token="+$localStorage.acToken;
+    return $http.get( url );
+
+  } // getStatus
 
 }) // .SparkService
 

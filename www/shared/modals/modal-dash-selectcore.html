@@ -1,0 +1,28 @@
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header bar-positive">
+    <h1 class="title">Select Core</h1>
+    <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+  </ion-header-bar>
+  <ion-content class="padding">
+    <div class="list">
+
+      <ion-radio ng-repeat="core in localDevices"
+                    ng-model="data.modalCore"
+                    ng-value="core.id"
+                    ng-checked="core.selected">
+        {{core.name}}
+        <span class="badge badge-dark" ng-show="!core.connected">Offline</span>
+        <span class="badge badge-balanced" ng-show="core.connected">Online</span>
+      </ion-radio>
+
+      <button class="button button-full button-positive" ng-click="selectCore()">
+        Select Core
+      </button>
+
+			<div class="assertive message-error" ng-show="settings.error">
+        {{settings.error}}
+      </div>
+
+    </div>
+  </ion-content>
+</ion-modal-view>

@@ -1,0 +1,36 @@
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header bar-positive">
+    <h1 class="title">Login Required</h1>
+    <button class="button button-clear button-primary" ng-click="closeModal()">Cancel</button>
+  </ion-header-bar>
+  <ion-content class="padding" ng-controller="SparkSelectAcctCtrl">
+    <div class="list">
+
+      <ion-radio ng-repeat="acct in accounts"
+                  ng-value="acct.access_token"
+                  ng-model="accts.selected"
+                  ng-checked="accts.selected">
+        {{acct.email}}
+        <p>{{acct.access_token}}</p>
+
+      </ion-radio>
+
+
+      <button class="button button-full button-positive" ng-show="!loginComplete" ng-click="selectAccount()">
+        Select Account
+      </button>
+
+      <div class="balanced message-error" ng-show="loginComplete">
+        Login Success!
+      </div>
+      <button class="button button-full button-balanced" ng-show="loginComplete" ng-click="closeModal()">
+        Close
+      </button>
+
+      <div class="assertive message-error" ng-show="settings.error">
+        {{settings.error}}
+      </div>
+
+    </div>
+  </ion-content>
+</ion-modal-view>
