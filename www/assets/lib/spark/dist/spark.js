@@ -8410,7 +8410,6 @@
                     if (typeof console !== "undefined") {
                         logError = typeof console.error !== "undefined" ? function(e) {
                             console.error(e)
-                            console.log('test');
                         } : function(e) {
                             console.log(e)
                         };

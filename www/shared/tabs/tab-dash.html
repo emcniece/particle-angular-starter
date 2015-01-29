@@ -28,24 +28,24 @@
 
       <div class="item range range-assertive">
         <i class="icon ion-paintbucket assertive"></i>
-        <input type="range" name="red" min="0" max="255" ng-model="data.color.r" on-release="updateDemo()">
+        <input type="range" name="red" min="0" max="255" ng-model="data.color.r" on-release="updateColor()">
         <p class="range-right-label">{{data.color.r}}</p>
       </div>
 
       <div class="item range range-balanced">
         <i class="icon ion-paintbucket balanced"></i>
-        <input type="range" name="green" min="0" max="255" ng-model="data.color.g" on-release="updateDemo()">
+        <input type="range" name="green" min="0" max="255" ng-model="data.color.g" on-release="updateColor()">
         <p class="range-right-label">{{data.color.g}}</p>
       </div>
 
       <div class="item range range-positive">
         <i class="icon ion-paintbucket positive"></i>
-        <input type="range" name="blue" min="0" max="255" ng-model="data.color.b" on-release="updateDemo()">
+        <input type="range" name="blue" min="0" max="255" ng-model="data.color.b" on-release="updateColor()">
         <p class="range-right-label">{{data.color.b}}</p>
       </div>
 
       <div class="item item-divider">
-            <button class="button button-full" style="color:#fff;background-color:rgba({{data.button.color.r}}, {{data.button.color.g}}, {{data.button.color.b}}, {{data.button.alpha}})" ng-click="onBrightnessChange()">Set Color</button>
+            <button class="button button-full" style="color:#000000;background-color:rgba({{data.button.color.r}}, {{data.button.color.g}}, {{data.button.color.b}}, {{data.button.alpha}})" ng-click="onBrightnessChange()">Set Color</button>
       </div>
 
     </div>
@@ -54,18 +54,20 @@
 
       <label class="item item-input item-select">
         <div class="input-label">Pattern</div>
-        <select>
-          <option value="SOLID">Solid Color</option>
-          <option value="RAINBOW">Rainbow</option>
-          <option value="RAINBOW_CYCLE">Rainbow Cycle</option>
-          <option value="XMAS">Christmas</option>
-          <option value="CAORDA">Caorda</option>
+        <select ng-model="data.state" ng-change="updateState()">
+          <option value="0">Rainbow</option>
+          <option value="1">Rainbow Cycle</option>
+          <option value="2">Solid Color</option>
+          <option value="3">Christmas</option>
+          <option value="4">Caorda</option>
+          <option value="5">Blinken</option>
+          <option value="6">Runner</option>
         </select>
       </label>
 
       <div class="item range range-energized">
         <i class="icon ion-speedometer energized"></i>
-        <input type="range" name="speed" min="0" max="255" ng-model="data.speed" on-release="onBrightnessChange()">
+        <input type="range" name="speed" min="0" max="500" ng-model="data.speed" on-release="updateSpeed()">
         <p class="range-right-label">Speed: {{data.speed}}</p>
       </div>
 

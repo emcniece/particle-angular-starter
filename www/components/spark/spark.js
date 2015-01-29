@@ -230,7 +230,7 @@ angular.module('starter.spark', [])
     $ionicLoading.hide();
     $ionicLoading.show({template:"Getting devices..."});
 
-    var devicesPr = spark.listDevices()
+    var devicesPr = spark.getAttributesForAll()
       .then( function(devices){
         console.log(devices);
 
@@ -351,7 +351,8 @@ angular.module('starter.spark', [])
 
   return {
     login: login,
-    getDevice: getDevice
+    getDevice: getDevice,
+    callFunction: callFunction
 
   }; // return SparkService
 
@@ -420,6 +421,7 @@ angular.module('starter.spark', [])
       this.login().then(function(){
 
         spark.getDevice(core.id, function(err, device){
+          device.lastQuery = +new Date;
           deferred.resolve(device);
         }); // getDevice
       }); // login.then
@@ -428,9 +430,49 @@ angular.module('starter.spark', [])
 
       // Otherwise if logged in just getDevice
       spark.getDevice(core.id, function(err, device){
+          device.lastQuery = +new Date;
           deferred.resolve(device);
         }); // getDevice
     }
+
+    return deferred.promise;
+
+  } // getDevice
+
+  function callFunction(core, name, params){
+
+    var deferred = $q.defer();
+
+    if(!core.id || !name){
+      console.log('SparkService callFunction error: wrong/missing parameters');
+      deferred.resolve(false);
+    }
+
+
+    if( typeof(core.callFunction) === 'undefined'){
+      alert('Core is not properly defined');
+      deferred.resolve(false);
+    } else{
+      if(!spark.accessToken){
+
+        // Perform login check version first
+        this.login().then(function(){
+
+          core.callFunction(name, params, function(err, data){
+            console.log('function return:', err, data);
+            deferred.resolve(data);
+          });
+        }); // login.then
+
+      } else{
+
+        // Otherwise if logged in just getDevice
+        core.callFunction(name, params, function(err, data){
+          deferred.resolve(data);
+        });
+      }
+    } // if callFunction is fn
+
 
     return deferred.promise;
 

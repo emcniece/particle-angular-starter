@@ -10,6 +10,7 @@ angular.module('starter.controllers', ['ngStorage'])
       modalCore: null,
       status: false,
       brightness : '0',
+      state: 0,
       name : false,
       color:{
         r: 128,
@@ -17,9 +18,10 @@ angular.module('starter.controllers', ['ngStorage'])
         b: 128,
       },
       button: {
-        color: {r:0,g:0,b:0},
+        color: {r:128,g:128,b:128},
         alpha: 1
-      }
+      },
+      multiplier: 1
 
     };
 
@@ -89,48 +91,52 @@ angular.module('starter.controllers', ['ngStorage'])
     }; // onBrightnessChange
 
     $scope.doRefresh = function() {
-      if( !spark.accessToken){
-        SparkService.login()
-          .then(function(data){
-              spark.getDevice($scope.data.activeCore.id, $scope.updateAC);
-            })
-            .catch(function(error){
-              console.log(error);
-              alert("Error: Please ensure accounts and cores are added.");
-            });
-      } else if($scope.data.activeCore){
-        spark.getDevice($scope.data.activeCore.id, $scope.updateAC);
+
+      if(!$scope.data.activeCore){
+        alert("Error: Please ensure accounts and cores are added.");
+        $scope.$broadcast('scroll.refreshComplete');
       } else{
-        alert('Please add at least one core in the Spark section and set it as active from here.');
+        SparkService.getDevice($scope.data.activeCore).then(function(device){
+          console.log('new', device);
+          $scope.data.activeCore = device;
+          $scope.$broadcast('scroll.refreshComplete');
+        })
       }
 
-      // done
-      $scope.$broadcast('scroll.refreshComplete');
 
     }; // doRefresh
 
-    $scope.updateAC = function(err, device){
-      $scope.data.activeCore = device;
-      $scope.data.activeCore.lastQuery = +new Date;
+    $scope.updateColor = function(){
+      $scope.updateDemo();
+      var params = $scope.data.color.r+","+$scope.data.color.g+","+$scope.data.color.b;
+
+      $ionicLoading.show({template:"Sending..."});
+      SparkService.callFunction($scope.data.activeCore, 'setState', params).then(function(data){
+        $ionicLoading.hide();
+        console.log(data);
+        /* TODO: Figure out why core returns bad ints and doesn't change color */
+      });
     };
 
-    $scope.bumpBrightness = function(){
-      var newLevel = parseInt($scope.data.brightness, 10) + 5;
-      if( newLevel > 255) newLevel = 255;
-      $scope.data.brightness = Lamp.setBrightness( newLevel);
+    $scope.updateState = function(){
+      $ionicLoading.show({template:"Sending..."});
+      SparkService.callFunction($scope.data.activeCore, 'setState', $scope.data.state).then(function(data){
+        $ionicLoading.hide();
+      });
     };
 
-    $scope.toggleLamp = function(){
-      var newLevel = 0;
-      if( $scope.data.brightness === 0){
-        newLevel = 255;
-      }
+    $scope.updateSpeed = function(){
 
-      $scope.data.brightness = Lamp.setBrightness(newLevel);
+      var wait = 500 - $scope.data.speed;
 
-      return newLevel;
+      $ionicLoading.show({template:"Sending..."});
+      SparkService.callFunction($scope.data.activeCore, 'setWait', wait).then(function(data){
+        $ionicLoading.hide();
 
-    }; // toggleLamp
+        $scope.data.speed = 500 - parseInt(data.return_value, 10);
+
+      });
+    };
 
 })
 
