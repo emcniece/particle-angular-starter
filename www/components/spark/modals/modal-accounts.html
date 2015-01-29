@@ -15,6 +15,11 @@
 
       </ion-radio>
 
+      <a href="/#/tab/spark/accounts" class="item item-icon-right item-icon-left" ng-show="!accounts.length" ng-click="closeModal()">
+        <i class="icon ion-plus"></i>
+        Add New Account
+        <i class="icon ion-chevron-right"></i>
+      </a>
 
       <button class="button button-full button-positive" ng-show="!loginComplete" ng-click="selectAccount()">
         Select Account

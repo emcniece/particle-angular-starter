@@ -23,6 +23,11 @@ angular.module('starter.controllers', ['ngStorage'])
 
     };
 
+    $scope.localDevices = $localStorage.spark.cores;
+
+    console.log('Active core: ',$scope.data.activeCore);
+    console.log('Active acct: ',$scope.data.activeAcct);
+
     // Update demo button to reflect additive light color
     $scope.updateDemo = function(){
       var highVal = 0,
@@ -44,14 +49,7 @@ angular.module('starter.controllers', ['ngStorage'])
         $scope.data.button.color[key] = parseInt(value/highVal*255, 10);
       });
 
-
-      console.log($scope.data.button.color, $scope.data.button.alpha);
-    };
-
-    console.log('Active core: ',$scope.data.activeCore);
-    console.log('Active acct: ',$scope.data.activeAcct);
-
-    $scope.localDevices = $localStorage.spark.cores;
+    }; // updateDemo
 
     // Modal def
     $ionicModal.fromTemplateUrl('shared/modals/modal-dash-selectcore.html', {
@@ -98,18 +96,22 @@ angular.module('starter.controllers', ['ngStorage'])
             })
             .catch(function(error){
               console.log(error);
+              alert("Error: Please ensure accounts and cores are added.");
             });
-      } else{
+      } else if($scope.data.activeCore){
         spark.getDevice($scope.data.activeCore.id, $scope.updateAC);
-
+      } else{
+        alert('Please add at least one core in the Spark section and set it as active from here.');
       }
+
+      // done
+      $scope.$broadcast('scroll.refreshComplete');
 
     }; // doRefresh
 
     $scope.updateAC = function(err, device){
       $scope.data.activeCore = device;
       $scope.data.activeCore.lastQuery = +new Date;
-      $scope.$broadcast('scroll.refreshComplete');
     };
 
     $scope.bumpBrightness = function(){

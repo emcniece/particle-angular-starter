@@ -288,8 +288,8 @@ angular.module('starter.spark', [])
 
 }) // GetDevices
 
-.controller('SparkCoreDetailCtrl', ['$scope', '$stateParams', '$localStorage', '$location',
-  function($scope, $stateParams, $localStorage, $location) {
+.controller('SparkCoreDetailCtrl', ['$scope', '$stateParams', '$localStorage', '$location', 'SparkService',
+  function($scope, $stateParams, $localStorage, $location, SparkService) {
 
 
   $scope.core = $localStorage.spark.cores[$stateParams.id];
@@ -301,6 +301,16 @@ angular.module('starter.spark', [])
       $location.path('tab/spark/cores');
     }
   };
+
+  $scope.getDetails = function(){
+
+    SparkService.getDevice($scope.core).then(function(device){
+      if(device.functions) $scope.core.functions = device.functions;
+      if(device.variables) $scope.core.variables = device.variables;
+    });
+
+    $scope.$broadcast('scroll.refreshComplete');
+  }
 
 }]) // SparkCoreDetailCtrl
 
@@ -318,7 +328,6 @@ angular.module('starter.spark', [])
 
       spark.login({accessToken: $scope.accts.selected})
         .then(function(data){
-          console.log('output: ', data);
           $localStorage.spark.activeAcct = {access_token : data.accessToken};
           $scope.loginComplete = true;
         })
@@ -336,7 +345,7 @@ angular.module('starter.spark', [])
 =            Spark Services Layer            =
 ============================================*/
 
-.service('SparkService', function($rootScope, $localStorage, $ionicModal, $ionicLoading){
+.service('SparkService', function($rootScope, $q, $localStorage, $ionicModal, $ionicLoading){
 
   var $scope = $scope || $rootScope.$new();
 
@@ -344,8 +353,7 @@ angular.module('starter.spark', [])
     login: login,
     getDevice: getDevice
 
-
-  }; // return Lamp
+  }; // return SparkService
 
   function login(activeAcct){
 
@@ -375,6 +383,11 @@ angular.module('starter.spark', [])
       $scope.closeModal = function() {
         $scope.modal.hide();
       };
+      //Cleanup the modal when we're done with it!
+      $scope.$on('$destroy', function() {
+        console.log('destroying');
+        $scope.modal.remove();
+      });
 
       return promise;
     }; // init
@@ -390,15 +403,39 @@ angular.module('starter.spark', [])
     } // if acct
 
 
-
-
   }
 
-  function getDevice(){
-    var url = $localStorage.apiUrl + "devices/"+$localStorage.device+"?access_token="+$localStorage.acToken;
-    return $http.get( url );
+  function getDevice(core){
 
-  } // getStatus
+    if(!core.id){
+      console.log('SparkService getDevice error: no core provided');
+      return false;
+    }
+
+    var deferred = $q.defer();
+
+    if(!spark.accessToken){
+
+      // Perform login check version first
+      this.login().then(function(){
+
+        spark.getDevice(core.id, function(err, device){
+          deferred.resolve(device);
+        }); // getDevice
+      }); // login.then
+
+    } else{
+
+      // Otherwise if logged in just getDevice
+      spark.getDevice(core.id, function(err, device){
+          deferred.resolve(device);
+        }); // getDevice
+    }
+
+    return deferred.promise;
+
+  } // getDevice
+
 
 }) // .SparkService
 

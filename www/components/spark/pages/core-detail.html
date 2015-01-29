@@ -4,7 +4,13 @@
     <h1 class="title">Cores</h1>
   </ion-header>
   <ion-content class="padding has-header">
-    <h1>Core Detail</h1>
+
+    <ion-refresher
+      pulling-text="Pull to get details..."
+      on-refresh="getDetails()">
+    </ion-refresher>
+
+    <h1>Core Details</h1>
 
     <div class="list">
       <label class="item item-icon-left">
@@ -28,6 +34,24 @@
         {{core.lastHeard}}
         <p>Last Heard</p>
       </label>
+
+      <a class="item item-icon-left">
+        <i class="icon ion-funnel"></i>
+        Functions
+        <ul>
+        <li ng-repeat="name in core.functions" class="positive">&nbsp;{{name}}</li>
+        </ul>
+      </a>
+
+      <a class="item item-icon-left">
+        <i class="icon ion-stats-bars"></i>
+        Variables
+        <ul>
+        <li ng-repeat="name in core.variables" class="positive">&nbsp;{{name}}</li>
+        </ul>
+      </a>
+
+
     </div>
 
     <div class="row">
