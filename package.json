@@ -1,5 +1,5 @@
 {
-  "name": "spark-angular-starter",
+  "name": "spark-angular-starter-demo",
   "description": "Provides a starter framework for Spark Core applications with an Ionic / AngularJS framework",
   "version": "0.0.1",
   "private": true,
