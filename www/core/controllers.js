@@ -100,7 +100,7 @@ angular.module('starter.controllers', ['ngStorage'])
           console.log('new', device);
           $scope.data.activeCore = device;
           $scope.$broadcast('scroll.refreshComplete');
-        })
+        });
       }
 
 
@@ -111,7 +111,7 @@ angular.module('starter.controllers', ['ngStorage'])
       var params = $scope.data.color.r+","+$scope.data.color.g+","+$scope.data.color.b;
 
       $ionicLoading.show({template:"Sending..."});
-      SparkService.callFunction($scope.data.activeCore, 'setState', params).then(function(data){
+      SparkService.callFunction($scope.data.activeCore, 'setColor', params).then(function(data){
         $ionicLoading.hide();
         console.log(data);
         /* TODO: Figure out why core returns bad ints and doesn't change color */
