@@ -28,24 +28,24 @@
 
       <div class="item range range-assertive">
         <i class="icon ion-paintbucket assertive"></i>
-        <input type="range" name="red" min="0" max="255" ng-model="data.color.r" on-release="updateColor()">
+        <input type="range" name="red" min="0" max="255" ng-model="data.color.r" on-release="updateDemo()">
         <p class="range-right-label">{{data.color.r}}</p>
       </div>
 
       <div class="item range range-balanced">
         <i class="icon ion-paintbucket balanced"></i>
-        <input type="range" name="green" min="0" max="255" ng-model="data.color.g" on-release="updateColor()">
+        <input type="range" name="green" min="0" max="255" ng-model="data.color.g" on-release="updateDemo()">
         <p class="range-right-label">{{data.color.g}}</p>
       </div>
 
       <div class="item range range-positive">
         <i class="icon ion-paintbucket positive"></i>
-        <input type="range" name="blue" min="0" max="255" ng-model="data.color.b" on-release="updateColor()">
+        <input type="range" name="blue" min="0" max="255" ng-model="data.color.b" on-release="updateDemo()">
         <p class="range-right-label">{{data.color.b}}</p>
       </div>
 
       <div class="item item-divider">
-            <button class="button button-full" style="color:#000000;background-color:rgba({{data.button.color.r}}, {{data.button.color.g}}, {{data.button.color.b}}, {{data.button.alpha}})" ng-click="onBrightnessChange()">Set Color</button>
+            <button class="button button-full" style="color:#000000;background-color:rgba({{data.button.color.r}}, {{data.button.color.g}}, {{data.button.color.b}}, {{data.button.alpha}})" ng-click="updateColor()">Set Color</button>
       </div>
 
     </div>
