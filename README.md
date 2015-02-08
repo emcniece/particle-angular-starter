@@ -2,7 +2,6 @@
 
 Provides a starter framework for [Spark Core](https://www.spark.io/) applications with [Ionic Framework](http://ionicframework.com/) wrapped around an AngularJS app.
 
----
 ## Online Demo
 [http://spark-angular-starter-demo.herokuapp.com/](http://spark-angular-starter-demo.herokuapp.com/)
 
@@ -10,7 +9,6 @@ This demo uses browser localstorage and the credentials are not stored remotely 
 
 The main "Dashboard" page is an example of some controls interacting with the Spark JS library.
 
----
 ##Web Tutorial
 This tutorial demonstrates the ability to interact with a Spark Core that is connected to a string of NeoPixel LEDs.
 
@@ -21,7 +19,6 @@ This tutorial demonstrates the ability to interact with a Spark Core that is con
 1. Pull down to initialize device and load active data
 1. Change colors and patterns to send commands to the device!
 
----
 ##Local Tutorial
 You can run this on your own machine! Ensure that [NodeJS](http://nodejs.org/download/) is installed.
 
@@ -30,7 +27,6 @@ You can run this on your own machine! Ensure that [NodeJS](http://nodejs.org/dow
 1. Run local server (`npm start`)
 1. Browse to [http://localhost:5000](http://localhost:5000)
 
----
 ##Modular Design
 
 The app file hierarchy is organized so that users are able to pull the core AngularJS Spark folder *(www/components/spark)* out and drop it into a new project.
@@ -49,7 +45,6 @@ The app file hierarchy is organized so that users are able to pull the core Angu
     - tabs
 
 
----
 ##Todo
 - Make selecting and initializing a device more streamlined, handle non-initted devices better
 - Change the _sending_ overlay to a footer growl-esque notification so you can still do things while waiting
@@ -57,10 +52,7 @@ The app file hierarchy is organized so that users are able to pull the core Angu
 - Make the **Variables** section do things
 - Make the **Functions** section do things
 
----
 
-
----
 ###Notes
 
 - The **Set Color** button on the Dashboard reflects the chosen RGB values after converting them to an additive color scheme, as rendering RGB values in an LED is a bit different than generating colors on the web.
