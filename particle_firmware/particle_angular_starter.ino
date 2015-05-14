@@ -1,7 +1,7 @@
 /*
- * https://github.com/emcniece/spark-angular-starter
- * This is a basic Spark Core sketch to demonstrate how the AngularJS
- * app can interface to Spark cloud functions and variable interaction.
+ * https://github.com/emcniece/particle-angular-starter
+ * This is a basic Particle Core sketch to demonstrate how the AngularJS
+ * app can interface to Particle cloud functions and variable interaction.
  *
  * v0.1 02/07/2015 @emcniece
  */

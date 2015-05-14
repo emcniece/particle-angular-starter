@@ -1,6 +1,6 @@
 {
-  "name": "spark-angular-starter-demo",
-  "description": "Provides a starter framework for Spark Core applications with an Ionic / AngularJS framework",
+  "name": "particle-angular-starter-demo",
+  "description": "Provides a starter framework for Particle Core applications with an Ionic / AngularJS framework",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
