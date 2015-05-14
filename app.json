@@ -1,7 +1,7 @@
 {
-  "name": "Spark Angular Starter Demo",
-  "description": "A simple Ionic app for Spark Cores",
-  "repository": "https://github.com/emcniece/spark-angular-starter-demo",
+  "name": "Particle Angular Starter Demo",
+  "description": "A simple Ionic app for Particle Cores",
+  "repository": "https://github.com/emcniece/particle-angular-starter-demo",
   "logo": "http://ionicframework.com/img/ionic-logo-blog.png",
   "keywords": ["ionic", "static"]
 }

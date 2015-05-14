@@ -3,3 +3,4 @@ node_modules/
 *.sublime*
 cordova.js
 *.url
+npm-debug.log

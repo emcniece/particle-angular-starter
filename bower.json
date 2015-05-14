@@ -1,8 +1,8 @@
 {
-  "name": "spark-angular-starter-demo",
+  "name": "particle-angular-starter-demo",
   "version": "0.0.0",
   "authors": [
-    "Eric McNiece <emcniece@caorda.com>"
+    "Eric McNiece <emcniece@gmail.com>"
   ],
   "license": "MIT",
   "private": true,
