@@ -3,7 +3,7 @@
 Provides a starter framework for [Particle Core](https://www.Particle.io/) applications with [Ionic Framework](http://ionicframework.com/) wrapped around an AngularJS app.
 
 ## Online Demo
-[http://particle-angular-starter-demo.herokuapp.com/](http://particle-angular-starter-demo.herokuapp.com/)
+[http://spark-angular-starter-demo.herokuapp.com/](http://spark-angular-starter-demo.herokuapp.com/)
 
 This demo uses browser localstorage and the credentials are not stored remotely - this means that you can access this page from your own browser or mobile device and safely connect your account and cores on private devices.
 
@@ -13,8 +13,8 @@ The main "Dashboard" page is an example of some controls interacting with the Pa
 This tutorial demonstrates the ability to interact with a Particle Core that is connected to a string of NeoPixel LEDs.
 
 1. Flash a Particle Core with the sketch located in the *Particle_firmware* folder
-1. Add an account in the Particle/Accounts tab. [[link](http://particle-angular-starter-demo.herokuapp.com/#/tab/Particle/accounts)]
-1. Add cores from the Particle/Cores tab. [[link](http://particle-angular-starter-demo.herokuapp.com/#/tab/Particle/cores)]
+1. Add an account in the Particle/Accounts tab. [[link](http://spark-angular-starter-demo.herokuapp.com/#/tab/Particle/accounts)]
+1. Add cores from the Particle/Cores tab. [[link](http://spark-angular-starter-demo.herokuapp.com/#/tab/Particle/cores)]
 1. Navigate back to the Dashboard, select a device from the top **Device:** interface
 1. Pull down to initialize device and load active data
 1. Change colors and patterns to send commands to the device!

@@ -4,3 +4,4 @@ node_modules/
 cordova.js
 *.url
 npm-debug.log
+Thumbs.db
